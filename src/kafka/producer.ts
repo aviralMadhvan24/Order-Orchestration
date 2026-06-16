@@ -1,23 +1,24 @@
-import kafka from "./client.ts";
+import kafka from "./client";
 
-const producer = kafka.producer() ; 
+const producer = kafka.producer();
 
 export async function connectProducer() {
-    await producer.connect() ; 
+    await producer.connect();
     console.log("✅ Kafka Producer Connected");
-    
-    
 }
 
-export async function publish(topic, message) {
+export async function publish(
+    topic: string,
+    message: unknown
+) {
     await producer.send({
         topic,
-        messages : [
+        messages: [
             {
-                value : JSON.stringify(message),
-            }
-        ]
-    })
-    
+                value: JSON.stringify(message),
+            },
+        ],
+    });
 }
-export default producer ;
+
+export default producer;

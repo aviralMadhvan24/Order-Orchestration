@@ -11,6 +11,43 @@ class OutboxRepository {
             data:event , 
         })
     }
+    async findPendingEvents(){
+        return this.db.outboxEvent.findMany({
+            where :{
+                processed:false ,
+            },
+            orderBy :{
+                createdAt :"asc",
+            }
+        })
+    }
+
+     // Mark event as processed
+    async markProcessed(id: string) {
+        return this.db.outboxEvent.update({
+            where: {
+                id,
+            },
+            data: {
+                processed: true,
+                processedAt: new Date(),
+            },
+        });
+    }
+
+    // Increment retry count
+    async incrementRetry(id: string) {
+        return this.db.outboxEvent.update({
+            where: {
+                id,
+            },
+            data: {
+                retryCount: {
+                    increment: 1,
+                },
+            },
+        });
+    }
 }
 
-export default  OutboxRepository ;
+export default OutboxRepository;
