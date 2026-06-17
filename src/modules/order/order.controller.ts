@@ -1,4 +1,4 @@
-import orderService from "./inventory.service";
+import orderService from "./order.service";
 
 class OrderController {
     async create(req, res) {

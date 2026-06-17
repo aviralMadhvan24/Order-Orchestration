@@ -1,0 +1,8 @@
+[33m9a3b1e9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m feat: initialize inventory service with Prisma, Kafka, and Express
+[33m185bd92[m Restructure repository into monorepo
+[33m2792a1b[m feat: update event type for order creation and generalize event publishing in outbox
+[33ma64fd63[m feat: implement inventory management with database setup, seeding, and Kafka integration
+[33mf311b74[m feat: remove NodeJS to TypeScript migration tool and related scripts
+[33mec3b750[m feat: implement outbox publisher for event processing and Kafka integration
+[33m83297f6[m feat: refactor createOrder method to use transaction and outbox pattern
+[33m6c0ffef[m feat: initialize order orchestration service with Prisma, Kafka, and Express

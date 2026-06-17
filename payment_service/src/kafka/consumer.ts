@@ -1,8 +1,7 @@
 import kafka from "./client";
-import inventoryService from "../modules/inventory/inventory.service";
-
+import paymentService from "../modules/payment.service";
 const consumer = kafka.consumer({
-    groupId :"inventory-service" ,
+    groupId :"payment-service" ,
 })
 
 export async function connectConsumer() {
@@ -12,7 +11,7 @@ export async function connectConsumer() {
     console.log("✅ Inventory Consumer Connected");
     
     await consumer.subscribe({
-        topic :"orders.created",
+        topic :"inventory.reserved",
         
     })
 
@@ -26,7 +25,7 @@ export async function connectConsumer() {
             
             console.log("📦 Order Event Received", data);
 
-            await inventoryService.reserveInventory(data);
+            await paymentService.processPayment(data);
         }
     })
 }
