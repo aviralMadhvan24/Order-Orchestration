@@ -1,28 +1,29 @@
-import "dotenv/config";
-
-import app from "./app";
+import { connectConsumer } from "./kafka/consumer";
 import { connectProducer } from "./kafka/producer";
 import outboxPublisher from "./outbox/outbox.publisher";
-const PORT = process.env.PORT || 3000;
+import "dotenv/config";
+import app from "./app";
 
-async function start ()  {
+const PORT = process.env.PORT || 3001;
 
-    
-    await connectProducer() ; 
+async function start() {
 
-    setInterval(async ()=> {
-        try {
-            await outboxPublisher.publishPendingEvents() ;
-            
-        } catch (error) {
-            console.log("Outbox publisher error : ", error);
-            
-        }
+    await connectProducer();
+
+    await connectConsumer();
+
+    setInterval(async () => {
+
+        await outboxPublisher.publishPendingEvents();
+
     },5000);
-    
-    app.listen(PORT, () => {
-        console.log(`Server running on ${PORT}`);
+
+    app.listen(PORT,()=>{
+
+        console.log("Inventory Service Running");
+
     });
+
 }
 
-start() ;
+start();
