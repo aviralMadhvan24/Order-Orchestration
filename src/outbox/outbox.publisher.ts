@@ -14,9 +14,9 @@ class OutboxPublisher {
 
             try {
 
-                // Publish to Kafka
+                // Publish to Kafka using the event's type as the topic
                 await publish(
-                    "orders.created",
+                    event.eventType,
                     event.payload
                 );
 

@@ -23,7 +23,7 @@ class OrderService {
             await outboxRepository.createEvent({
                 aggregateId: order.id,
                 aggregateType: "Order",
-                eventType: "OrderCreated",
+                eventType: "orders.created",
                 
                 payload: {
                     orderId: order.id,
