@@ -13,12 +13,21 @@ class OutboxPublisher {
        for (const event of events) {
 
             try {
+<<<<<<< HEAD
 
                 // Publish to Kafka using the event's type as the topic
                 await publish(
                     event.eventType,
                     event.payload
                 );
+=======
+   console.log("Publishing to topic:", event.eventType);
+                // Publish to Kafka
+await publish(
+    event.eventType,
+    event.payload
+);
+>>>>>>> a64fd6359925853b899b34b38ae5590ff8118ba3
 
                 // Mark event as processed
                 await outboxRepository.markProcessed(event.id);
