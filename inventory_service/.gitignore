@@ -1,0 +1,51 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+.env.local
+
+# Build output
+dist/
+build/
+out/
+coverage/
+*.tsbuildinfo
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+pids/
+*.pid
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Prisma
+prisma/migrations/
+prisma/.env
+node_modules/.prisma/
+prisma/dev.db
+
+# Misc
+.cache/
+coverage/
+node_modules
+# Keep environment variables out of version control
+.env
+
+/src/generated/prisma

@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Inventory {
+
+  id String @id @default(uuid())
+
+  product String @unique
+
+  available Int
+
+  reserved Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+}
+model OutboxEvent {
+  id             String   @id @default(uuid())
+
+  aggregateId    String
+  aggregateType  String
+
+  eventType      String
+
+  payload        Json
+
+  processed      Boolean  @default(false)
+  retryCount     Int      @default(0)
+
+  createdAt      DateTime @default(now())
+  processedAt    DateTime?
+
+  @@index([processed])
+  @@index([createdAt])
+}
