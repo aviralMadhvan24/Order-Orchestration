@@ -15,12 +15,6 @@ class OutboxPublisher {
             try {
 
 
-                // Publish to Kafka using the event's type as the topic
-                await publish(
-                    event.eventType,
-                    event.payload
-                );
-
    console.log("Publishing to topic:", event.eventType);
                 // Publish to Kafka
 await publish(

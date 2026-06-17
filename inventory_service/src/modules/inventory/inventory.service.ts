@@ -12,6 +12,7 @@ class InventoryService {
         product: string;
 
         quantity: number;
+        amount : number ;
 
     }) {
 
@@ -76,11 +77,10 @@ class InventoryService {
 
                 payload: {
 
-                    orderId: data.orderId,
-
-                    product: data.product,
-
-                    quantity: data.quantity,
+        orderId: data.orderId,
+        product: data.product,
+        quantity: data.quantity,
+        amount: data.amount,
 
                 },
 
@@ -89,6 +89,70 @@ class InventoryService {
         });
 
     }
+
+
+    async releaseInventory(data: {
+
+    orderId: string;
+
+    product: string;
+
+    quantity: number;
+
+}) {
+
+    return prisma.$transaction(async (tx) => {
+
+        const inventoryRepository =
+            new InventoryRepository(tx);
+
+        const outboxRepository =
+            new OutboxRepository(tx);
+
+        const inventory =
+            await inventoryRepository.findByProduct(
+                data.product
+            );
+
+        if (!inventory) {
+
+            throw new Error("Product not found");
+
+        }
+
+        await inventoryRepository.releaseInventory(
+
+            inventory.id,
+
+            data.quantity
+
+        );
+
+        await outboxRepository.createEvent({
+
+            aggregateId: data.orderId,
+
+            aggregateType: "Inventory",
+
+            eventType: "inventory.released",
+
+            payload: {
+
+                orderId: data.orderId,
+
+                product: data.product,
+
+                quantity: data.quantity,
+
+            },
+
+        });
+
+        console.log("✅ Inventory Released");
+
+    });
+
+}
 
 }
 

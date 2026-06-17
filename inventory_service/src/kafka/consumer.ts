@@ -11,23 +11,40 @@ export async function connectConsumer() {
 
     console.log("✅ Inventory Consumer Connected");
     
-    await consumer.subscribe({
-        topic :"orders.created",
-        
-    })
+await consumer.subscribe({
+    topic: "inventory.reserve",
+});
 
-    await consumer.run({
-        eachMessage : async ({message}) =>{
-            if(!message.value) return ;
-            const data = JSON.parse(
-                message.value.toString()
-            ) ; 
+await consumer.subscribe({
+    topic: "inventory.release",
+});
 
-            
-            console.log("📦 Order Event Received", data);
+await consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
 
-            await inventoryService.reserveInventory(data);
-        }
-    })
+        console.log(
+            "Offset:",
+            message.offset,
+            "Partition:",
+            partition
+        );
+
+        const data = JSON.parse(message.value!.toString());
+
+        console.log("📦 Order Event Received", data);
+
+        switch (topic) {
+
+    case "inventory.reserve":
+        await inventoryService.reserveInventory(data);
+        break;
+
+    case "inventory.release":
+        await inventoryService.releaseInventory(data);
+        break;
+
+}
+    }
+});
 }
 export default consumer ; 

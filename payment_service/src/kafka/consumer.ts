@@ -10,10 +10,9 @@ export async function connectConsumer() {
 
     console.log("✅ Inventory Consumer Connected");
     
-    await consumer.subscribe({
-        topic :"inventory.reserved",
-        
-    })
+await consumer.subscribe({
+    topic:"payment.process"
+});
 
     await consumer.run({
         eachMessage : async ({message}) =>{

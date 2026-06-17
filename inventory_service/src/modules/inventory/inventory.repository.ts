@@ -42,6 +42,32 @@ class InventoryRepository {
         });
 
     }
+    async releaseInventory(
+    id: string,
+    quantity: number
+) {
+
+    return this.db.inventory.update({
+
+        where: {
+            id,
+        },
+
+        data: {
+
+            available: {
+                increment: quantity,
+            },
+
+            reserved: {
+                decrement: quantity,
+            },
+
+        },
+
+    });
+
+}
 
 }
 

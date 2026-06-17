@@ -8,16 +8,14 @@ datasource db {
 }
 
 model Order {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   product   String
   quantity  Int
   amount    Float
-  status    OrderStatus @default(PENDING)
-
+  status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
 model OutboxEvent {
   id             String   @id @default(uuid())
 
@@ -36,11 +34,4 @@ model OutboxEvent {
 
   @@index([processed])
   @@index([createdAt])
-}
-
-enum OrderStatus {
-  PENDING
-  CONFIRMED
-  CANCELLED
-  COMPLETED
 }
